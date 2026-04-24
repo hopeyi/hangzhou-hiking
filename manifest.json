@@ -2,7 +2,7 @@
   "name": "杭州徒步导航",
   "short_name": "杭州徒步",
   "description": "发现杭州最美徒步路线，一键高德导航",
-  "start_url": "/",
+  "start_url": "./",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#ff2442",
