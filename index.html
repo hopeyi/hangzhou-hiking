@@ -99,8 +99,11 @@ body { font-family:-apple-system,'SF Pro Text','PingFang SC',sans-serif; backgro
 .convert-body { padding:16px; }
 .input-card { background:var(--card); border-radius:20px; padding:20px; box-shadow:var(--shadow); }
 .input-card label { font-size:14px; font-weight:600; color:var(--text2); display:block; margin-bottom:10px; }
-.input-card textarea { width:100%; min-height:140px; padding:14px; border:2px solid var(--border); border-radius:16px; font-size:16px; font-family:inherit; resize:vertical; line-height:1.7; background:var(--bg); transition:border-color .2s; }
+.input-card textarea { width:100%; min-height:140px; padding:14px; padding-right:40px; border:2px solid var(--border); border-radius:16px; font-size:16px; font-family:inherit; resize:vertical; line-height:1.7; background:var(--bg); transition:border-color .2s; }
 .input-card textarea:focus { outline:none; border-color:var(--xhs); }
+.textarea-wrap { position:relative; }
+.btn-clear-input { position:absolute; top:10px; right:10px; width:28px; height:28px; border:none; border-radius:50%; background:rgba(0,0,0,0.08); color:#999; font-size:16px; line-height:28px; text-align:center; cursor:pointer; display:none; z-index:1; transition:background .2s; }
+.btn-clear-input:active { background:rgba(0,0,0,0.15); }
 .input-card .quick-tags { display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; }
 .input-card .quick-tag { padding:8px 14px; border:none; border-radius:20px; background:var(--bg); color:var(--text2); font-size:13px; font-weight:500; cursor:pointer; transition:all .2s; }
 .input-card .quick-tag:active { background:var(--xhs-light); color:var(--xhs); transform:scale(0.95); }
@@ -224,7 +227,10 @@ body { font-family:-apple-system,'SF Pro Text','PingFang SC',sans-serif; backgro
   <div class="convert-body">
     <div class="input-card">
       <label>📋 粘贴路径文字</label>
-      <textarea id="inputText" placeholder="例如：九溪公交站 → 九溪烟树 → 龙井村 → 十里琅珰"></textarea>
+      <div class="textarea-wrap">
+        <textarea id="inputText" placeholder="例如：九溪公交站 → 九溪烟树 → 龙井村 → 十里琅珰" oninput="toggleClearBtn()"></textarea>
+        <button class="btn-clear-input" id="btnClearInput" onclick="clearInput()">✕</button>
+      </div>
       <div class="quick-tags">
         <button class="quick-tag" onclick="fillExample(0)">九溪线</button>
         <button class="quick-tag" onclick="fillExample(1)">北高峰</button>
@@ -561,7 +567,9 @@ async function nav(waypoints){
 function doNav(wp){nav(wp).catch(err=>toast(err.message||'导航失败'));}
 
 // ===================== 路径转换 =====================
-function fillExample(i){$('inputText').value=examples[i];}
+function toggleClearBtn(){$('btnClearInput').style.display=$('inputText').value.trim()?'block':'none';}
+function clearInput(){$('inputText').value='';$('btnClearInput').style.display='none';$('convertResult').innerHTML='';$('inputText').focus();}
+function fillExample(i){$('inputText').value=examples[i];toggleClearBtn();}
 
 function convertPath(){
   const text=$('inputText').value;
