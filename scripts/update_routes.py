@@ -41,7 +41,7 @@ HZ_LOCATIONS = {
 # 路线封面配色模板
 COVER_STYLES = [
     {'bg': 'linear-gradient(135deg,#4facfe,#00f2fe)', 'icon': '🌿'},
-    {'bg': 'linear-gradient(135deg,#a18cd1,#fbc2eb)', 'icon': '⟰️'},
+    {'bg': 'linear-gradient(135deg,#a18cd1,#fbc2eb)', 'icon': '⛰️'},
     {'bg': 'linear-gradient(135deg,#ff9a56,#ff6a00)', 'icon': '🙏'},
     {'bg': 'linear-gradient(135deg,#30cfd0,#330867)', 'icon': '🥾'},
     {'bg': 'linear-gradient(135deg,#11998e,#38ef7d)', 'icon': '🏯'},
@@ -99,7 +99,7 @@ def extract_waypoints(text):
     """从文本中提取路线节点"""
     best = []
     # 尝试不同的分隔符
-    for sep in ['→', '➡️', '➡', '—', '－', '﹣', '-', '–', '|', '~', '到','.']:
+    for sep in ['→', '➡️', '➡', '—', '－', '-', '–', '|', '~', '到']:
         if sep not in text:
             continue
         parts = [p.strip().strip('。，,.!！?？ ') for p in text.split(sep)]
