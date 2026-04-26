@@ -335,7 +335,6 @@ body { font-family:-apple-system,'SF Pro Text','PingFang SC',sans-serif; backgro
 
 <div class="toast" id="toast"></div>
 
-<script src="https://webapi.amap.com/maps?v=2.0&key=4c7c11c274ffcbd72adfca8a30f4efe3"></script>
 <script>
 // ===================== 数据 =====================
 const locationDB = {
@@ -516,9 +515,19 @@ function renderGrid(list,isSearch){
 }
 
 // ===================== 导航 =====================
-function searchCoord(name){
+function loadAMap(){
   return new Promise((resolve,reject)=>{
-    if(!window.AMap){reject(new Error('高德API加载中'));return;}
+    if(window.AMap){resolve();return;}
+    const s=document.createElement('script');
+    s.src='https://webapi.amap.com/maps?v=2.0&key=4c7c11c274ffcbd72adfca8a30f4efe3';
+    s.onload=()=>resolve();
+    s.onerror=()=>reject(new Error('高德地图加载失败，请检查网络'));
+    document.head.appendChild(s);
+  });
+}
+
+function searchCoord(name){
+  return loadAMap().then(()=>new Promise((resolve,reject)=>{
     AMap.plugin('AMap.PlaceSearch',function(){
       const ps=new AMap.PlaceSearch({city:'杭州',citylimit:true,pageSize:1});
       ps.search(name,function(status,result){
@@ -529,7 +538,7 @@ function searchCoord(name){
         }else{reject(new Error('未找到: '+name));}
       });
     });
-  });
+  }));
 }
 
 async function nav(waypoints){
