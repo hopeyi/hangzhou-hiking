@@ -538,6 +538,7 @@ function searchCoord(name){
         if(status==='complete'&&result.info==='OK'&&result.poiList&&result.poiList.pois.length>0){
           const poi=result.poiList.pois[0];
           locationDB[name]=poi.location.lng+','+poi.location.lat;
+          const lc=JSON.parse(localStorage.getItem('loc-cache')||'{}');lc[name]=locationDB[name];localStorage.setItem('loc-cache',JSON.stringify(lc));
           resolve();
         }else{reject(new Error('未找到: '+name));}
       });
@@ -716,6 +717,7 @@ function clearAllData(){
   localStorage.removeItem('my-routes');
   localStorage.removeItem('profile-name');
   localStorage.removeItem('nav-count');
+  localStorage.removeItem('loc-cache');
   toast('数据已清除');
   renderMyRoutes();
 }
@@ -727,6 +729,7 @@ if('serviceWorker'in navigator){
 }
 
 // 启动
+Object.assign(locationDB,JSON.parse(localStorage.getItem('loc-cache')||'{}'));
 loadRoutes();
 $('profileName').value=getProfileName();
 navCount=getNavCount();
