@@ -99,7 +99,7 @@ def extract_waypoints(text):
     """从文本中提取路线节点"""
     best = []
     # 尝试不同的分隔符
-    for sep in ['→', '➡️', '➡', '—', '－', '﹣', '-', '–', '|', '~', '到']:
+    for sep in ['→', '➡️', '➡', '—', '－', '﹣', '-', '–', '|', '~', '到','.']:
         if sep not in text:
             continue
         parts = [p.strip().strip('。，,.!！?？ ') for p in text.split(sep)]
