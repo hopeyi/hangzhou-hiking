@@ -198,6 +198,10 @@ body { font-family:-apple-system,'SF Pro Text','PingFang SC',sans-serif; backgro
 </style>
 </head>
 <body>
+<script>
+// 清理旧 Service Worker 和旧缓存，防止缓存死循环
+if('serviceWorker'in navigator){navigator.serviceWorker.getRegistrations().then(function(rs){rs.forEach(function(r){r.unregister();});});caches.keys().then(function(ks){ks.forEach(function(k){if(k!=='hz-v5')caches.delete(k);});});}
+</script>
 
 <!-- ========== 首页 ========== -->
 <div class="view active" id="v-home">
