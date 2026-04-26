@@ -609,8 +609,9 @@ function convertPath(){
 
 function saveFromConvert(wp){
   const r=getMyRoutes();
-  const idx=r.length+1;
-  r.unshift({name:'路线'+idx,waypoints:wp,created:Date.now()});
+  let maxNum=0;
+  r.forEach(function(x){const m=x.name.match(/^路线(\d+)$/);if(m)maxNum=Math.max(maxNum,parseInt(m[1]));});
+  r.unshift({name:'路线'+(maxNum+1),waypoints:wp,created:Date.now()});
   saveMyRoutes(r);
   toast('已保存到我的路线');
 }
@@ -648,12 +649,12 @@ function renderMyRoutes(){
           </div>
         </div>
         <div style="display:flex;align-items:center;gap:8px;margin-top:8px;flex-wrap:wrap">
-          <div class="nav-btn" onclick="event.stopPropagation();doNav(${wp})">
+          <div class="nav-btn" style="margin-top:0;align-self:auto" onclick="event.stopPropagation();doNav(${wp})">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/></svg>
             点击导航
           </div>
-          <button style="padding:7px 12px;border-radius:10px;border:none;background:var(--bg);color:var(--text2);font-size:12px;font-weight:600;cursor:pointer;line-height:1" onclick="event.stopPropagation();editRoute(${i})">编辑</button>
-          <button style="padding:7px 12px;border-radius:10px;border:none;background:var(--bg);color:var(--text2);font-size:12px;font-weight:600;cursor:pointer;line-height:1" onclick="event.stopPropagation();deleteRoute(${i})">删除</button>
+          <button style="padding:7px 12px;border-radius:10px;border:none;background:var(--bg);color:var(--text2);font-size:12px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;height:31px" onclick="event.stopPropagation();editRoute(${i})">编辑</button>
+          <button style="padding:7px 12px;border-radius:10px;border:none;background:var(--bg);color:var(--text2);font-size:12px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;height:31px" onclick="event.stopPropagation();deleteRoute(${i})">删除</button>
         </div>
       </div>
     </div>`;
